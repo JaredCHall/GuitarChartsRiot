@@ -10,7 +10,9 @@
     "prepublishOnly": "npm test",
     "start": "npm run watch & npm run server",
     "watch": "rollup -c -w 'src/**'",
-    "server": "browser-sync start --files 'dist/*, style.css, index.html' --server"
+    "server": "browser-sync start --files 'dist/*, style.css, index.html' --server",
+    "css-build": "npx @tailwindcss/cli -i src/css/app.css -o ./dist/app.css",
+    "css-watch": "npx @tailwindcss/cli -i src/css/app.css -o ./dist/app.css --watch"
   },
   "author": "",
   "license": "GPL-3.0-or-later",
@@ -32,6 +34,8 @@
     "rollup-plugin-riot": "^9.0.2"
   },
   "dependencies": {
-    "riot": "^9.1.2"
+    "@tailwindcss/cli": "^4.1.4",
+    "riot": "^9.1.2",
+    "tailwindcss": "^4.1.4"
   }
 }
