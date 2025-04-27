@@ -1,0 +1,37 @@
+{
+  "name": "guitarcagedriot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_OPTIONS=\"--loader @riotjs/register\" c8 mocha --require jsdom-global/register src/**/*.spec.js",
+    "cov": "c8 report --reporter=text-lcov",
+    "cov-html": "c8 report --reporter=html",
+    "build": "rollup -c",
+    "prepublishOnly": "npm test",
+    "start": "npm run watch & npm run server",
+    "watch": "rollup -c -w 'src/**'",
+    "server": "browser-sync start --files 'dist/*, style.css, index.html' --server"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "description": "",
+  "type": "module",
+  "devDependencies": {
+    "@riotjs/compiler": "^9.0.6",
+    "@riotjs/register": "^9.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "browser-sync": "^2.29.3",
+    "c8": "^8.0.1",
+    "chai": "^4.3.10",
+    "jsdom": "^23.0.1",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^10.2.0",
+    "prettier": "^3.1.0",
+    "rollup": "^4.6.1",
+    "rollup-plugin-riot": "^9.0.2"
+  },
+  "dependencies": {
+    "riot": "^9.1.2"
+  }
+}
