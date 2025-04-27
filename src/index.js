@@ -1,8 +1,10 @@
 import { mount } from "riot";
-import registerGlobalComponents from "./register-global-components";
+import { register} from 'riot'
 
-// register
-registerGlobalComponents();
+// Import components
+import App from './components/App.riot'
 
-// mount all the global components found in this page
-mount("[data-riot-component]");
+// Register components globally
+register('App', App)
+
+mount('[data-riot-component]')
