@@ -1,4 +1,4 @@
-import {CagedPosition} from "$classes/types.ts";
+import {CagedPosition} from "classes/types.ts";
 import {ScaleMode} from "./ScaleModeInterface.ts";
 
 export class NaturalMajor implements ScaleMode{

@@ -1,12 +1,12 @@
-import {CagedNote} from "$classes/CagedNote.ts";
-import {ScaleMode} from "$classes/ScaleModes/ScaleModeInterface.ts";
-import {NaturalMajor} from "$classes/ScaleModes/NaturalMajor.ts";
-import {NaturalMinor} from "$classes/ScaleModes/NaturalMinor.ts";
-import {MajorPentatonic} from "$classes/ScaleModes/MajorPentatonic.ts";
-import {MinorPentatonic} from "$classes/ScaleModes/MinorPentatonic.ts";
-import {MajorBlues} from "$classes/ScaleModes/MajorBlues.ts";
-import {MinorBlues} from "$classes/ScaleModes/MinorBlues.ts";
-import {CagedPosition} from "$classes/types.ts";
+import {CagedNote} from "classes/CagedNote.ts";
+import {ScaleMode} from "classes/ScaleModes/ScaleModeInterface.ts";
+import {NaturalMajor} from "classes/ScaleModes/NaturalMajor.ts";
+import {NaturalMinor} from "classes/ScaleModes/NaturalMinor.ts";
+import {MajorPentatonic} from "classes/ScaleModes/MajorPentatonic.ts";
+import {MinorPentatonic} from "classes/ScaleModes/MinorPentatonic.ts";
+import {MajorBlues} from "classes/ScaleModes/MajorBlues.ts";
+import {MinorBlues} from "classes/ScaleModes/MinorBlues.ts";
+import {CagedPosition} from "classes/types.ts";
 
 export class CagePositionFinder {
 

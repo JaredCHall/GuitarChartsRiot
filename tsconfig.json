@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES6", // Set the JavaScript version for output
+    "module": "ES6", // Set the module system
+    "rootDir": "src", // Root of your TypeScript files
+    "outDir": "dist", // Output directory for compiled files
+    "baseUrl": "src", // Use "src" for absolute imports
+    "paths": {
+      "*": ["*"] // Map all imports within "src"
+    },
+    "moduleResolution": "node", // Resolve modules like Node.js
+    "esModuleInterop": true, // For compatibility with CommonJS modules
+    "strict": true, // Enable strict type-checking
+    "skipLibCheck": true, // Skip checking .d.ts files for faster builds
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "exclude": [
+    "node_modules", // Exclude dependencies
+    "dist", // Exclude build output
+    "tests" // Optional: Exclude tests
+  ]
+}
