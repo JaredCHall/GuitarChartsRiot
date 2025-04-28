@@ -95,27 +95,28 @@ export class CagePositionFinder {
     }
   }
 
-  getScaleModePosition(scaleMode: ScaleMode, position: string): CagedPosition {
+  getScaleModePosition(scaleMode: ScaleMode, position: string, key: string): CagedPosition {
     switch(position) {
       case 'C':
-       return scaleMode.charlie()
+       return scaleMode.charlie(key)
       case 'A':
-        return scaleMode.alpha()
+        return scaleMode.alpha(key)
       case 'G':
-        return scaleMode.golf()
+        return scaleMode.golf(key)
       case 'E':
-        return scaleMode.echo()
+        return scaleMode.echo(key)
       case 'D':
-        return scaleMode.delta()
+        return scaleMode.delta(key)
       default:
         throw new Error(`Unknown scale position: ${position}`);
     }
   }
 
-  getScale(mode: string, position: string): CagedNote[] {
+  getScale(mode: string, position: string, key: string): CagedNote[] {
     const cagedPosition = this.getScaleModePosition(
         this.getScaleMode(mode),
-        position
+        position,
+        key
     );
 
     const notes: CagedNote[] = [];

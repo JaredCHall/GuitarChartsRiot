@@ -36,7 +36,7 @@
                 this.update()
             },
             onBeforeUpdate(){
-                this.state.cagedNotes = this.state.cageFinder.getScale(this.props.mode, this.props.position);
+                this.state.cagedNotes = this.state.cageFinder.getScale(this.props.mode, this.props.position, this.props.keyName);
                 this.state.scaleNotes = this.state.noteFinder.getKeyIntervals(this.props.keyName, this.props.mode);
                 this.state.startFret = this.state.cageFinder.getStartFret(this.props.keyName, this.state.cagedNotes);
             },
