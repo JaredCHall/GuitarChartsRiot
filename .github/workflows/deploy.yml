@@ -39,6 +39,7 @@ jobs:
           mkdir deploy/dist
           cp -r dist/* deploy/dist  # Assuming your output folder is "public"
           cp index.html deploy
+          cp logo.png deploy
 
           # Go into deploy folder
           cd deploy
