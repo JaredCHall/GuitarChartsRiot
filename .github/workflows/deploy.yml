@@ -1,0 +1,53 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Build the project
+        run: |
+          npm run build
+
+      - name: Deploy to gh-pages
+        run: |
+          # Move into a clean deployment folder
+          mkdir deploy
+          mkdir deploy/dist
+          cp -r dist/* deploy/dist  # Assuming your output folder is "public"
+          cp index.html deploy
+
+          # Go into deploy folder
+          cd deploy
+
+          # Init a fresh git repo
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+
+          # Force push to gh-pages branch
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" HEAD:gh-pages
