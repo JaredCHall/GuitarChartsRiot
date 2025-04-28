@@ -19,60 +19,19 @@
         };
     </script>
 
-    <style>
-        .home-container {
-            min-height: 100vh; /* Full screen height */
-            min-width: 100vw; /* Full screen width */
-            display: grid;
-            grid-template-rows: repeat(2, 1fr);
-            grid-template-columns: repeat(3, 1fr);
-            background-color: #1a202c; /* Tailwind's bg-gray-900 */
-            color: #edf2f7; /* Tailwind's text-gray-100 */
-        }
-        .tile {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #2d3748; /* Tailwind's bg-gray-800 */
-            padding: 1rem;
-            border: 1px solid #4a5568; /* Tailwind's border-gray-700 */
-        }
-        .controls {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #171923; /* Tailwind's bg-gray-950 */
-            padding: 1rem;
-            border: 1px solid #4a5568; /* Tailwind's border-gray-800 */
-        }
-        .select-scale {
-            margin-top: 1.5rem;
-            width: 100%;
-        }
-        .select-scale select {
-            width: 100%;
-            background-color: #2d3748; /* Tailwind's bg-gray-800 */
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            box-shadow: 0 0 0 1px #4a5568;
-            border: 1px solid #4a5568; /* Tailwind's border-gray-700 */
-        }
-    </style>
-
-    <div class="home-container min-h-screen min-w-screen bg-gray-900 text-gray-100 grid grid-rows-2 grid-cols-3">
+    <div class="min-h-screen min-w-screen bg-gray-900 text-gray-100 grid grid-rows-2 grid-cols-3">
         <!-- Tile 1: Navigation & Controls -->
-        <div class="tile controls flex flex-col items-center justify-center bg-gray-950 p-4 border border-gray-800">
+        <div class="flex flex-col items-center justify-center bg-gray-950 p-4 border border-gray-800">
             <!-- Circle of Fifths -->
             <circle-of-fifths
                     selected-key="{state.selectedKey}"
-                    onkeyselect="{setSelectedKey}"
+                    on-key-select="{setSelectedKey}"
                     selected-label-mode="{state.labelMode}"
-                    onlabelmodeselect="{setLabelMode}">
+                    on-label-mode-select="{setLabelMode}">
             </circle-of-fifths>
 
             <!-- Scale Selection -->
-            <div class="select-scale mt-6 space-y-4 w-full">
+            <div class="mt-4 space-y-4 w-full">
                 <label for="scale-mode" class="mb-1 font-semibold">Scale:</label>
                 <select id="scale-mode" onchange="{setScaleMode}" class="w-full bg-gray-800 p-2 rounded shadow border border-gray-700">
                     <option value="Major Scale" selected={state.scaleMode === 'Major Scale'}>Major Scale</option>
@@ -86,13 +45,13 @@
         </div>
 
         <!-- Tiles 2–6: CAGED Fingering Charts -->
-        <div each={position in [state.cagedPositions[0]]} class="tile">
-            <fingering-chart
-                    key-name="{state.selectedKey}"
-                    position="{position}"
-                    mode="{state.scaleMode}"
-                    label-mode="{state.labelMode}">
-            </fingering-chart>
-        </div>
+        <fingering-chart each={position in state.cagedPositions}
+                key-name="{state.selectedKey}"
+                position="{position}"
+                mode="{state.scaleMode}"
+                label-mode="{state.labelMode}"
+                class="flex flex-col items-center justify-center bg-gray-800 p-4 border border-gray-700"
+        >
+        </fingering-chart>
     </div>
 </home-island>

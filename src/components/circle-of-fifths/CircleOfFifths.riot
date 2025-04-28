@@ -39,7 +39,9 @@
                 }
             },
             selectLabelMode(mode) {
+                console.log('setting mode')
                 if (this.props.onLabelModeSelect) {
+                    console.log('ok?')
                     this.props.onLabelModeSelect(mode)
                 }
             },
@@ -68,14 +70,6 @@
     </script>
 
     <style>
-        .circle-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .controls {
-            margin-right: 1rem;
-        }
         .key-button {
             padding: 0.5rem;
             border-radius: 9999px;
@@ -96,9 +90,9 @@
         }
     </style>
 
-    <div class="circle-container flex items-center justify-center">
+    <div class="flex items-center justify-center">
         <!-- Controls -->
-        <div class="controls flex flex-col items-center space-y-2 mr-4">
+        <div class="flex flex-col items-center space-y-2 mr-4">
             <button
                     class="key-button p-2 rounded-full transition-transform transform hover:scale-110 {(props.selectedLabelMode === 'none' ? 'selected' : 'unselected')}"
                     onclick={() => selectLabelMode('none')}
