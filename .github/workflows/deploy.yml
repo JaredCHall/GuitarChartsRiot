@@ -30,6 +30,7 @@ jobs:
       - name: Build the project
         run: |
           npm run build
+          npm run css-build
 
       - name: Deploy to gh-pages
         run: |
