@@ -1,0 +1,183 @@
+<circle-of-fifths>
+    <script>
+        export default {
+            props: {
+                selectedKey: '',
+                onKeySelect: null,
+                selectedLabelMode: '',
+                onLabelModeSelect: null,
+            },
+            state: {
+                keys: [
+                    { major: 'C', minor: 'a' },
+                    { major: 'G', minor: 'e' },
+                    { major: 'D', minor: 'b' },
+                    { major: 'A', minor: 'f♯' },
+                    { major: 'E', minor: 'c♯' },
+                    { major: 'B', minor: 'g♯' },
+                    { major: 'F♯', minor: 'd♯' },
+                    { major: 'D♭', minor: 'b♭' },
+                    { major: 'A♭', minor: 'f' },
+                    { major: 'E♭', minor: 'c' },
+                    { major: 'B♭', minor: 'g' },
+                    { major: 'F', minor: 'd' },
+                ],
+                radius: 120,
+                center: 150,
+                angleStep: (2 * Math.PI) / 12,
+                hovered: false,
+            },
+            setHovered(index) {
+                this.update({ hovered: index })
+            },
+            clearHovered() {
+                this.update({ hovered: false })
+            },
+            selectKey(key) {
+                if (this.props.onKeySelect) {
+                    this.props.onKeySelect(key)
+                }
+            },
+            selectLabelMode(mode) {
+                if (this.props.onLabelModeSelect) {
+                    this.props.onLabelModeSelect(mode)
+                }
+            },
+            getCircleFillColor(key, index) {
+                if (key.major === this.props.selectedKey) {
+                    return '#f59e0b'
+                } else if (index === this.state.hovered) {
+                    return '#1f2937'
+                } else {
+                    return '#111827'
+                }
+            },
+            getStrokeColor(key, index) {
+                if (key.major === this.props.selectedKey) {
+                    return '#fbbf24'
+                } else if (index === this.state.hovered) {
+                    return '#d1d5db'
+                } else {
+                    return '#6b7280'
+                }
+            },
+            getTextStyle(key) {
+                return "fill: " + key.major === this.props.selectedKey ? '#000000' : '#f3f4f6';
+            }
+        }
+    </script>
+
+    <style>
+        .circle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .controls {
+            margin-right: 1rem;
+        }
+        .key-button {
+            padding: 0.5rem;
+            border-radius: 9999px;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .key-button:hover {
+            transform: scale(1.1);
+        }
+        .selected {
+            background-color: #f59e0b; /* bg-yellow-500 */
+        }
+        .unselected {
+            background-color: #374151; /* bg-gray-700 */
+        }
+        .circle-svg {
+            margin: auto;
+        }
+    </style>
+
+    <div class="circle-container flex items-center justify-center">
+        <!-- Controls -->
+        <div class="controls flex flex-col items-center space-y-2 mr-4">
+            <button
+                    class="key-button p-2 rounded-full transition-transform transform hover:scale-110 {(props.selectedLabelMode === 'none' ? 'selected' : 'unselected')}"
+                    onclick={() => selectLabelMode('none')}
+                    title="Clean"
+            >
+                👁️‍🗨️
+            </button>
+            <button
+                    class="key-button p-2 rounded-full transition-transform transform hover:scale-110 {(props.selectedLabelMode === 'intervals' ? 'selected' : 'unselected')}"
+                    onclick={() => selectLabelMode('intervals')}
+                    title="Intervals"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <text x="0" y="17" font-size="14" font-weight="bold">123</text>
+                </svg>
+            </button>
+            <button
+                    class="key-button p-2 rounded-full transition-transform transform hover:scale-110 {(props.selectedLabelMode === 'notes' ? 'selected' : 'unselected')}"
+                    onclick={() => selectLabelMode('notes')}
+                    title="Note Names"
+            >
+                🎵
+            </button>
+        </div>
+
+        <!-- Circle of Fifths -->
+        <svg width="300" height="300" viewBox="0 0 300 300" class="circle-svg mx-auto">
+            <circle
+                    cx={state.center}
+                    cy={state.center}
+                    r={state.radius}
+                    fill="none"
+                    stroke="#444"
+                    stroke-width="2"
+            />
+            <image
+                    href="/logo.png"
+                    x={(state.center - 60)}
+                    y={(state.center - 60)}
+                    width="120"
+                    height="120"
+            />
+
+
+                <g each={ (key, index) in state.keys}
+                        onmouseenter={() => setHovered(index)}
+                        onmouseleave={() => clearHovered()}
+                        onclick={() => selectKey(key.major)}
+                        style="cursor: pointer"
+                >
+                    <circle
+                            cx={(state.center + state.radius * Math.cos(state.angleStep * index - Math.PI / 2))}
+                            cy={(state.center + state.radius * Math.sin(state.angleStep * index - Math.PI / 2))}
+                            r="16"
+                            fill={getCircleFillColor(key, index)}
+                            stroke={getStrokeColor(key, index)}
+                    />
+                    <text
+                            x={(state.center + state.radius * Math.cos(state.angleStep * index - Math.PI / 2))}
+                            y={(state.center + state.radius * Math.sin(state.angleStep * index - Math.PI / 2))}
+                            fill={(key.major === props.selectedKey ? '#000000' : '#f3f4f6')}
+                            font-size="12"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                    >
+                        {key.major}
+                    </text>
+                    <text
+                            x={(state.center + (state.radius-30) * Math.cos(state.angleStep * index - Math.PI / 2))}
+                            y={(state.center + (state.radius-30) * Math.sin(state.angleStep * index - Math.PI / 2))}
+                            fill="#9ca3af"
+                            font-size="12"
+                            text-anchor="middle"
+                            dominant-baseline="middle"
+                    >
+                        {key.minor}
+                    </text>
+                </g>
+
+        </svg>
+    </div>
+</circle-of-fifths>

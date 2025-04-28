@@ -23,6 +23,7 @@
     "@riotjs/register": "^9.0.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^12.1.2",
     "browser-sync": "^2.29.3",
     "c8": "^8.0.1",
     "chai": "^4.3.10",

@@ -1,0 +1,98 @@
+<home-island>
+    <script>
+        export default {
+            state: {
+                selectedKey: 'C',
+                labelMode: 'none', // Options: 'none', 'intervals', 'notes'
+                scaleMode: 'Major Scale', // Scale selected
+                cagedPositions: ['C', 'A', 'G', 'E', 'D'] // CAGED positions
+            },
+            setSelectedKey(key) {
+                this.update({ selectedKey: key });
+            },
+            setLabelMode(mode) {
+                this.update({ labelMode: mode });
+            },
+            setScaleMode(event) {
+                this.update({ scaleMode: event.target.value });
+            },
+        };
+    </script>
+
+    <style>
+        .home-container {
+            min-height: 100vh; /* Full screen height */
+            min-width: 100vw; /* Full screen width */
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
+            background-color: #1a202c; /* Tailwind's bg-gray-900 */
+            color: #edf2f7; /* Tailwind's text-gray-100 */
+        }
+        .tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #2d3748; /* Tailwind's bg-gray-800 */
+            padding: 1rem;
+            border: 1px solid #4a5568; /* Tailwind's border-gray-700 */
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #171923; /* Tailwind's bg-gray-950 */
+            padding: 1rem;
+            border: 1px solid #4a5568; /* Tailwind's border-gray-800 */
+        }
+        .select-scale {
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+        .select-scale select {
+            width: 100%;
+            background-color: #2d3748; /* Tailwind's bg-gray-800 */
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 0 0 1px #4a5568;
+            border: 1px solid #4a5568; /* Tailwind's border-gray-700 */
+        }
+    </style>
+
+    <div class="home-container min-h-screen min-w-screen bg-gray-900 text-gray-100 grid grid-rows-2 grid-cols-3">
+        <!-- Tile 1: Navigation & Controls -->
+        <div class="tile controls flex flex-col items-center justify-center bg-gray-950 p-4 border border-gray-800">
+            <!-- Circle of Fifths -->
+            <circle-of-fifths
+                    selected-key="{state.selectedKey}"
+                    onkeyselect="{setSelectedKey}"
+                    selected-label-mode="{state.labelMode}"
+                    onlabelmodeselect="{setLabelMode}">
+            </circle-of-fifths>
+
+            <!-- Scale Selection -->
+            <div class="select-scale">
+                <label for="scale-mode" class="mb-1 font-semibold">Scale:</label>
+                <select id="scale-mode" onchange="{setScaleMode}">
+                    <option value="Major Scale" selected={state.scaleMode === 'Major Scale'}>Major Scale</option>
+                    <option value="Natural Minor" selected={state.scaleMode === 'Natural Minor'}>Natural Minor</option>
+                    <option value="Major Pentatonic" selected={state.scaleMode === 'Major Pentatonic'}>Major Pentatonic</option>
+                    <option value="Minor Pentatonic" selected={state.scaleMode === 'Minor Pentatonic'}>Minor Pentatonic</option>
+                    <option value="Major Blues" selected={state.scaleMode === 'Major Blues'}>Major Blues</option>
+                    <option value="Minor Blues" selected={state.scaleMode === 'Minor Blues'}>Minor Blues</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tiles 2–6: CAGED Fingering Charts -->
+        <div each={position in state.cagedPositions} class="tile">
+            <fingering-chart
+                    key-name="{state.selectedKey}"
+                    position="{position}"
+                    mode="{state.scaleMode}"
+                    label-mode="{state.labelMode}">
+            </fingering-chart>
+        </div>
+    </div>
+</home-island>

@@ -1,0 +1,175 @@
+<fingering-chart>
+    <script>
+        import { CagePositionFinder } from '../../classes/CagePositionFinder.ts';
+        import { NoteFinder } from '../../classes/NoteFinder.ts';
+
+        export default {
+            props: {
+                position: '',
+                mode: '',
+                keyName: '',
+                labelMode: 'none', // Options: 'none', 'intervals', 'notes'
+            },
+            state: {
+                cageFinder: new CagePositionFinder(),
+                noteFinder: new NoteFinder(),
+                topOffset: 24,
+                strings: 6,
+                frets: 5,
+                width: 300,
+                height: 140,
+                verticalPadding: 16,
+                stringWidths: [10, 7, 5, 3, 2, 1],
+                paddedHeight: 32 + 140,
+                fretSpacing: 300 / 5,
+                stringSpacing: 140 / 5,
+                colors: {
+                    ebony: '#161617',
+                    bronze: '#a57034',
+                    silver: '#c0c0c0',
+                },
+                startFret: 0,
+                cagedNotes: [],
+                scaleNotes: [],
+            },
+            onMounted() {
+                this.update({
+                    cagedNotes: this.state.cageFinder.getScale(this.props.mode, this.props.position),
+                    scaleNotes: this.state.noteFinder.getKeyIntervals(this.props.keyName, this.props.mode),
+                    startFret: this.state.cageFinder.getStartFret(this.props.keyName, this.state.cagedNotes),
+                })
+            },
+            getStringY(index) {
+                return index * this.state.stringSpacing + this.state.verticalPadding + this.state.topOffset;
+            },
+            getFretX(index) {
+                return index * this.state.fretSpacing;
+            },
+            getNoteX(value) {
+                return value.fret * this.state.fretSpacing + this.state.fretSpacing / 2;
+            },
+            getNoteY(value) {
+                return (this.state.strings - 1 - value.string) * this.state.stringSpacing + this.state.verticalPadding + this.state.topOffset;
+            },
+            getStringStrokeWidth(index) {
+                return this.state.stringWidths[this.state.strings - 1 - index];
+            }
+        };
+    </script>
+
+    <style>
+        .fingering-chart {
+            width: 100%;
+            height: auto;
+        }
+        text {
+            font-family: 'serif';
+            letter-spacing: 1px;
+        }
+    </style>
+
+    <svg
+            viewBox={"0 0 " + state.width + " " + (state.paddedHeight + state.topOffset)}
+            preserveAspectRatio="xMidYMid meet"
+            class="fingering-chart"
+    >
+        <!-- Draw fretboard background -->
+        <rect
+                x="0"
+                y={state.topOffset}
+                height={state.paddedHeight}
+                width={state.width}
+                fill={state.colors.ebony}
+        />
+
+        <!-- CAGED position label -->
+        <text
+                x={state.width / 2}
+                y="20"
+                text-anchor="middle"
+                font-size="20"
+                font-weight="bold"
+                fill="white"
+        >
+            {props.position.charAt(0).toUpperCase()}
+        </text>
+
+        <!-- Draw fret numbers -->
+        <g each={(index) in [0,1,2,3,4,5]}>
+            <text
+                    x={(index + 1) * state.fretSpacing - state.fretSpacing / 2}
+                    y="36"
+                    text-anchor="middle"
+                    font-size="10"
+                    fill="gray"
+            >
+                {state.startFret + index}
+            </text>
+        </g>
+
+        <!-- Draw frets -->
+        <g each={index in [0,1,2,3,4,5]}>
+            <line
+                    x1={getFretX(index)}
+                    y1={state.topOffset}
+                    x2={getFretX(index)}
+                    y2={state.paddedHeight + state.topOffset}
+                    stroke={state.colors.silver}
+                    stroke-width={(index === 0 ? 4 : 2)}
+                    class="fret"
+            />
+        </g>
+
+        <!-- Draw strings (bottom to top) -->
+        <g each={index in [0,1,2,3,4,5]}>
+            <line
+                    x1="0"
+                    y1={getStringY(index)}
+                    x2={state.width}
+                    y2={getStringY(index)}
+                    stroke={state.colors.bronze}
+                    stroke-width={getStringStrokeWidth(index)}
+                    stroke-linecap="round"
+            />
+        </g>
+
+        <!-- Draw note markers -->
+        <g each={value in state.cagedNotes}>
+            <g>
+                <circle
+                        cx={getNoteX(value)}
+                        cy={getNoteY(value)}
+                        r="12"
+                        fill={(value.interval === '1' ? 'red' : 'yellow')}
+                        stroke="black"
+                        stroke-width="1.5"
+                />
+                <text
+                        if={props.labelMode === 'intervals'}
+                        x={getNoteX(value)}
+                        y={getNoteY(value) + 6}
+                        font-size="10"
+                        font-weight="bold"
+                        fill="black"
+                        text-anchor="middle"
+                        dominant-baseline="middle"
+                >
+                    {value.interval}
+                </text>
+                <text
+                        if={props.labelMode === 'notes'}
+                        x={getNoteX(value)}
+                        y={getNoteY(value) + 6}
+                        font-size="10"
+                        font-weight="bold"
+                        fill="black"
+                        text-anchor="middle"
+                        dominant-baseline="middle"
+                >
+                    {state.scaleNotes[value.interval]}
+                </text>
+            </g>
+        </g>
+
+    </svg>
+</fingering-chart>
