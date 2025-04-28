@@ -86,7 +86,7 @@
         </div>
 
         <!-- Tiles 2–6: CAGED Fingering Charts -->
-        <div each={position in state.cagedPositions} class="tile">
+        <div each={position in [state.cagedPositions[0]]} class="tile">
             <fingering-chart
                     key-name="{state.selectedKey}"
                     position="{position}"

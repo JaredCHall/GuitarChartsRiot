@@ -11,6 +11,10 @@
                 labelMode: 'none', // Options: 'none', 'intervals', 'notes'
             },
             state: {
+                position: '',
+                mode: '',
+                keyName: '',
+                labelMode: 'none',
                 cageFinder: new CagePositionFinder(),
                 noteFinder: new NoteFinder(),
                 topOffset: 24,
@@ -33,11 +37,12 @@
                 scaleNotes: [],
             },
             onMounted() {
-                this.update({
-                    cagedNotes: this.state.cageFinder.getScale(this.props.mode, this.props.position),
-                    scaleNotes: this.state.noteFinder.getKeyIntervals(this.props.keyName, this.props.mode),
-                    startFret: this.state.cageFinder.getStartFret(this.props.keyName, this.state.cagedNotes),
-                })
+                this.update()
+            },
+            onBeforeUpdate(){
+                this.state.cagedNotes = this.state.cageFinder.getScale(this.props.mode, this.props.position);
+                this.state.scaleNotes = this.state.noteFinder.getKeyIntervals(this.props.keyName, this.props.mode);
+                this.state.startFret = this.state.cageFinder.getStartFret(this.props.keyName, this.state.cagedNotes);
             },
             getStringY(index) {
                 return index * this.state.stringSpacing + this.state.verticalPadding + this.state.topOffset;
@@ -84,12 +89,13 @@
 
         <!-- CAGED position label -->
         <text
-                x={state.width / 2}
-                y="20"
+                x="10"
+                y="18"
                 text-anchor="middle"
                 font-size="20"
                 font-weight="bold"
                 fill="white"
+                style="font-family: 'serif';"
         >
             {props.position.charAt(0).toUpperCase()}
         </text>
@@ -98,7 +104,7 @@
         <g each={(index) in [0,1,2,3,4,5]}>
             <text
                     x={(index + 1) * state.fretSpacing - state.fretSpacing / 2}
-                    y="36"
+                    y="18"
                     text-anchor="middle"
                     font-size="10"
                     fill="gray"
