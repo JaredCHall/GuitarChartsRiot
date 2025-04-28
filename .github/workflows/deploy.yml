@@ -40,6 +40,7 @@ jobs:
           cp -r dist/* deploy/dist  # Assuming your output folder is "public"
           cp index.html deploy
           cp logo.png deploy
+          cp favicon.png deploy
 
           # Go into deploy folder
           cd deploy
