@@ -15,7 +15,19 @@ export class NaturalMinor implements ScaleMode {
     return [2, 1, 2, 2, 1, 2, 2];
   }
 
-  charlie(): CagedPosition {
+  charlie(key: string): CagedPosition {
+
+    if(key === 'B'){
+      return [
+        ['4', null, '5', '♭6',null],
+        ['♭7', null, '1', null,'2'],
+        ['♭3', null, '4', null,'5'],
+        ['♭6', null, '♭7', null,null],
+        ['1' , null ,'2' , '♭3',null],
+        ['4', null, '5', '♭6',null],
+      ]
+    }
+
     return [
       [null, '4', null, '5', '♭6'],
       [null, '♭7', null, '1', null],
@@ -48,7 +60,19 @@ export class NaturalMinor implements ScaleMode {
     ]
   }
 
-  echo(): CagedPosition {
+  echo(key: string): CagedPosition {
+
+    if(key === 'E'){
+      return [
+        ['1' , null ,'2' , '♭3',null],
+        ['4' , null ,'5' , '♭6', null],
+        ['♭7', null, '1', null,'2'],
+        ['2', '♭3', null, '4', null],
+        ['5', '♭6', null, '♭7', null],
+        ['1' , null ,'2' , '♭3', null],
+      ]
+    }
+
     return [
       [null ,'1' , null ,'2' , '♭3'],
       [null ,'4' , null ,'5' , '♭6'],
